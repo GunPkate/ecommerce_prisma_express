@@ -11,4 +11,7 @@ npm i nodemon
 
 ```
 npx prisma migrate dev --name "start project"
+npm i cors
+npm i body-parser
+npm i jsonwebtoken
 ```

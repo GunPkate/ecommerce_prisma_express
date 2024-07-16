@@ -8,3 +8,7 @@ npm i prisma --save-dev
 npx prisma init --datasource-provider postgresql
 npm i nodemon
 ```
+
+```
+npx prisma migrate dev --name "start project"
+```

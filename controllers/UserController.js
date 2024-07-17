@@ -4,7 +4,6 @@ const {PrismaClient} = require('@prisma/client');
 const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
-dotenv.config();
 
 
 function checkSignIn(req, res, next){

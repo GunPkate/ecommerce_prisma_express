@@ -20,10 +20,28 @@ app.post('/create', async (req,res)=>{
 app.get('/list', async (req,res)=>{
     try {
         const result = await prisma.product.findMany({
-          orderBy: { id: 'desc'}
+          orderBy: { id: 'desc'},
+          where: { status: 'use' }
         })
 
         res.send({ result: result })
+    } catch (e) {
+        res.status(500).send({ error: e.message})
+    }
+})
+
+app.delete('/remove/:id', async (req,res) => {
+    try {
+        await prisma.product.update({
+            data: {
+                status: 'delete'
+            },
+            where: {
+                id: parseInt(req.params.id)
+            }
+        })
+
+        res.send({ message: 'success' })
     } catch (e) {
         res.status(500).send({ error: e.message})
     }

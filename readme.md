@@ -16,4 +16,6 @@ npm i body-parser
 npm i jsonwebtoken
 
 npx prisma migrate dev --name "add new product model"
+npm i express-fileupload
+npm i fs
 ```

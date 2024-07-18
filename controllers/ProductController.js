@@ -17,6 +17,21 @@ app.post('/create', async (req,res)=>{
     }
 })
 
+app.post('/update', async (req,res)=>{
+    try {
+        const result = await prisma.product.update({
+            data: req.body,
+            where: {
+                id: parseInt(req.body.id) 
+            }
+        })
+
+        res.send({ message: "success" })
+    } catch (e) {
+        res.status(500).send({ error: e.message})
+    }
+})
+
 app.get('/list', async (req,res)=>{
     try {
         const result = await prisma.product.findMany({

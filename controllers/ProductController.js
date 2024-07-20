@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv')
 const fileUpload = require('express-fileupload')
 const excelJs = require('exceljs')
+const fs = require('fs');
 
 app.use(fileUpload());
 
@@ -23,6 +24,13 @@ app.post('/create', async (req,res)=>{
 
 app.post('/update', async (req,res)=>{
     try {
+        const oldData = await prisma.product.findFirst({where:{ id: req.body.id } })
+        const imgPath = './uploads/' + oldData.img;
+
+        if(fs.existsSync(imgPath) && oldData.img != undefined && oldData.img != ''){
+            await fs.unlinkSync(imgPath);
+        }
+
         const result = await prisma.product.update({
             data: req.body,
             where: {
@@ -71,7 +79,6 @@ app.post('/upload', async (req,res) => {
 
         if(req.files !== undefined){
             const img = req.files.img;
-            const fs = require('fs');
             const myDate = new Date();
             const y = myDate.getFullYear()
             const m = myDate.getMonth() + 1;
@@ -128,7 +135,6 @@ app.post('/uploadExcel', async (req,res) => {
                         }
                     }
 
-                    const fs = require('fs');
                     await fs.unlinkSync('./uploads/' + fileExcel.name);
 
 

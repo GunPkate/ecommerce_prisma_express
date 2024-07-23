@@ -38,4 +38,14 @@ app.post('/order',async (req,res) => {
     }
 })
 
+app.get('/order',async (req,res) => {
+    try {
+        let result = await prisma.billSale.findMany({})
+        res.send({ result: result})
+    } catch (e) {
+        res.status(500).send({error: e.message})
+    }
+
+})
+
 module.exports = app;

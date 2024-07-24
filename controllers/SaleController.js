@@ -40,7 +40,9 @@ app.post('/order',async (req,res) => {
 
 app.get('/order',async (req,res) => {
     try {
-        let result = await prisma.billSale.findMany({})
+        let result = await prisma.billSale.findMany({
+            orderBy: { id: 'asc' }
+        })
         res.send({ result: result})
     } catch (e) {
         res.status(500).send({error: e.message})
@@ -54,8 +56,43 @@ app.get('/order/:id',async (req,res) => {
             where: {billSaleId: parseInt(req.params.id)},
             orderBy: { id: 'asc' }
         })
-        console.log(result)
         res.send({ result: result})
+    } catch (e) {
+        res.status(500).send({error: e.message})
+    }
+})
+
+app.get('/orderUpdateStatusPay/:id',async (req,res) => {
+    try {
+        let result = await prisma.billSale.update({
+            data: { status: 'Pay' },
+            where: {id: parseInt(req.params.id)},
+        })
+        res.send({ message: 'success'})
+    } catch (e) {
+        res.status(500).send({error: e.message})
+    }
+})
+
+app.get('/orderUpdateStatusInTransit/:id',async (req,res) => {
+    try {
+        let result = await prisma.billSale.update({
+            data: { status: 'In Transit' },
+            where: {id: parseInt(req.params.id)},
+        })
+        res.send({ message: 'success'})
+    } catch (e) {
+        res.status(500).send({error: e.message})
+    }
+})
+
+app.get('/orderUpdateStatusCancel/:id',async (req,res) => {
+    try {
+        let result = await prisma.billSale.update({
+            data: { status: 'Cancel' },
+            where: {id: parseInt(req.params.id)},
+        })
+        res.send({ message: 'success'})
     } catch (e) {
         res.status(500).send({error: e.message})
     }

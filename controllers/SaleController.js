@@ -45,7 +45,20 @@ app.get('/order',async (req,res) => {
     } catch (e) {
         res.status(500).send({error: e.message})
     }
+})
 
+app.get('/order/:id',async (req,res) => {
+    try {
+        let result = await prisma.billSaleDetail.findMany({
+            include: { Product: true},
+            where: {billSaleId: parseInt(req.params.id)},
+            orderBy: { id: 'asc' }
+        })
+        console.log(result)
+        res.send({ result: result})
+    } catch (e) {
+        res.status(500).send({error: e.message})
+    }
 })
 
 module.exports = app;
